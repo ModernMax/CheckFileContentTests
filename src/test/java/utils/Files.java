@@ -3,18 +3,21 @@ package utils;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-
 
 
 public class Files {
@@ -38,7 +41,7 @@ public class Files {
         return new XLS(getFile(path));
     }
 
-    public static String readXlsxFromPath(String path){
+    public static String readXlsxFromPath(String path) {
         String result = "";
         XSSFWorkbook myExcelBook = null;
 
@@ -83,5 +86,16 @@ public class Files {
         }
 
         return result;
+    }
+
+    public static WordExtractor readDocFromPath(String path) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(path);
+        HWPFDocument document = new HWPFDocument(fileInputStream);
+        return new WordExtractor(document);
+    }
+    public  static XWPFWordExtractor readDocxFromPath(String path) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(path);
+        XWPFDocument document = new XWPFDocument(fileInputStream);
+        return new XWPFWordExtractor(document);
     }
 }
